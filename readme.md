@@ -25,6 +25,19 @@ Para usar o programa, execute o seguinte comando no terminal dentro do diretóri
 go run main.go
 ```
 
+## Utilizando via docker
+
+Para buildar a imagem
+```
+docker build -t go-investiment .
+```
+
+Para rodar o container de forma interativa
+
+```
+docker run -it go-investiment
+```
+
 Você será solicitado a inserir o valor inicial do investimento, o valor mensal recorrente, a rentabilidade anual em percentual, e a duração do investimento em anos.
 
 ## Rodando os Testes

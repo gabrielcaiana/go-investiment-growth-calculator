@@ -14,8 +14,14 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: 1.21
-      - run: go test
+      - run: go test -coverprofile=coverage.out
       - run: go run main.go
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build-and-push:
     needs: check-application

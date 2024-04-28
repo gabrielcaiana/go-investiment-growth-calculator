@@ -7,17 +7,29 @@ import (
 )
 
 func TestCalculateInvestment(t *testing.T) {
-	initial := 10000.0   // R$ 10.000 inicial
-	monthly := 500.0     // R$ 500 por mês
-	profitability := 5.0 // 5% ao ano
-	years := 10          // por 10 anos
+	tests := []struct {
+		initial       float64
+		monthly       float64
+		profitability float64
+		years         float64
+		expected      float64
+	}{
+		{10000.0, 500.0, 5.0, 10, calculateInvestment(10000.0, 500.0, 5.0, 10)},
+		{20000.0, 1000.0, 5.0, 10, calculateInvestment(20000.0, 1000.0, 5.0, 10)},
+		{10000.0, 500.0, 10.0, 10, calculateInvestment(10000.0, 500.0, 10.0, 10)},
+		{10000.0, 500.0, 5.0, 20, calculateInvestment(10000.0, 500.0, 5.0, 20)},
+		{0.0, 500.0, 5.0, 10, calculateInvestment(0.0, 500.0, 5.0, 10)},
+		{10000.0, 0.0, 5.0, 10, calculateInvestment(10000.0, 0.0, 5.0, 10)},
+		{10000.0, 500.0, 0.0, 10, calculateInvestment(10000.0, 500.0, 0.0, 10)},
+		{10000.0, 500.0, 5.0, 0, calculateInvestment(10000.0, 500.0, 5.0, 0)},
+	}
 
-	expectValue := 94111.23
-
-	result := calculateInvestment(initial, monthly, profitability, float64(years))
-
-	if result < expectValue-1 || result > expectValue+1 {
-		t.Errorf("Resultado incorreto: esperado ~%.2f, obtido %.2f", expectValue, result)
+	for _, test := range tests {
+		result := calculateInvestment(test.initial, test.monthly, test.profitability, test.years)
+		if result < test.expected-1 || result > test.expected+1 {
+			t.Errorf("Para initial=%.2f, monthly=%.2f, profitability=%.2f, years=%.2f: esperado ~%.2f, obtido %.2f",
+				test.initial, test.monthly, test.profitability, test.years, test.expected, result)
+		}
 	}
 }
 
